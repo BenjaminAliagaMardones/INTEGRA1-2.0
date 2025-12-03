@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% block title %}{{ cooperative.name }} - CoopConnect{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <div class="card-custom p-5 mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2><i class="bi bi-diagram-3"></i> {{ cooperative.name }}</h2>
+            {% if is_member %}
+            <span class="badge bg-success">Tu empresa es miembro</span>
+            {% endif %}
+        </div>
+
+        <p class="lead">{{ cooperative.description }}</p>
+
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card bg-secondary p-3 text-center">
+                    <h3>{{ cooperative.companies_count }}</h3>
+                    <p class="mb-0">Empresas Miembro</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card bg-secondary p-3 text-center">
+                    <h5>{{ cooperative.get_sector_display }}</h5>
+                    <p class="mb-0">Sector</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            {% if user == cooperative.created_by %}
+            <div class="mb-3">
+                <a href="{% url 'organizations:cooperative_edit' cooperative.id %}" class="btn btn-warning me-2">
+                    <i class="bi bi-pencil"></i> Editar
+                </a>
+                <a href="{% url 'organizations:cooperative_delete' cooperative.id %}" class="btn btn-danger">
+                    <i class="bi bi-trash"></i> Eliminar
+                </a>
+            </div>
+            {% endif %}
+
+            {% if is_member %}
+            <a href="{% url 'messaging:create_cooperative_chat' cooperative.id %}" class="btn btn-success me-2">
+                <i class="bi bi-chat-dots"></i> Chat de Cooperativa
+            </a>
+            <a href="{% url 'organizations:cooperative_leave' cooperative.id %}" class="btn btn-outline-danger"
+                onclick="return confirm('¿Seguro que quieres salir de esta cooperativa?')">
+                <i class="bi bi-x-circle"></i> Salir de la Cooperativa
+            </a>
+            {% elif can_join %}
+            <a href="{% url 'organizations:cooperative_join' cooperative.id %}" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Unir Mi Empresa
+            </a>
+            {% elif not user.profile.company %}
+            <div class="alert alert-warning">
+                Debes pertenecer a una empresa para unirte a cooperativas.
+            </div>
+            {% else %}
+            <div class="alert alert-info">
+                Tu empresa no puede unirse (sectores diferentes).
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="card-custom p-4">
+        <h5><i class="bi bi-building"></i> Empresas Miembro ({{ companies.count }})</h5>
+        <hr>
+        {% if companies %}
+        <div class="row g-3">
+            {% for company in companies %}
+            <div class="col-md-6">
+                <div class="card bg-secondary p-3">
+                    <h6>{{ company.name }}</h6>
+                    <p class="small text-muted mb-0">
+                        <i class="bi bi-people"></i> {{ company.members_count }} miembros
+                    </p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-muted">No hay empresas en esta cooperativa aún.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

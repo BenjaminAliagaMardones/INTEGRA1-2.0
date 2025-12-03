@@ -1,0 +1,215 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}CoopConnect - Conecta tu PYME con el Futuro{% endblock %}
+
+{% block navbar %}
+<!-- Navbar Override for Landing -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top"
+    style="background-color: rgba(0, 0, 0, 0.95); backdrop-filter: blur(10px);">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <i class="bi bi-diagram-3-fill text-primary"></i> CoopConnect
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#features">Características</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#how-it-works">Cómo Funciona</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'accounts:login' %}">Iniciar Sesión</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-primary-custom ms-3" href="{% url 'accounts:register' %}">Comenzar Gratis</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="hero-title">
+                    Conecta tu <span class="highlight">PYME</span><br>
+                    con el Futuro
+                </h1>
+                <p class="lead mb-4" style="font-size: 1.3rem; color: #71767b;">
+                    La plataforma que une a empresas chilenas para crecer juntas.
+                    Colabora, comunica y coopera en tiempo real.
+                </p>
+                <div class="d-flex gap-3">
+                    <a href="{% url 'accounts:register' %}" class="btn btn-primary-custom">
+                        <i class="bi bi-rocket-takeoff"></i> Comenzar Ahora
+                    </a>
+                    <a href="#how-it-works" class="btn btn-outline-custom">
+                        <i class="bi bi-play-circle"></i> Ver Cómo Funciona
+                    </a>
+                </div>
+
+                <!-- Stats -->
+                <div class="row mt-5">
+                    <div class="col-4">
+                        <div class="stat-number">100+</div>
+                        <div class="text-muted">PYMEs Conectadas</div>
+                    </div>
+                    <div class="col-4">
+                        <div class="stat-number">50+</div>
+                        <div class="text-muted">Cooperativas</div>
+                    </div>
+                    <div class="col-4">
+                        <div class="stat-number">10</div>
+                        <div class="text-muted">Sectores</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center d-none d-lg-block">
+                <i class="bi bi-diagram-3 display-1" style="font-size: 20rem; color: rgba(29, 155, 240, 0.1);"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="py-5" style="min-height: 100vh; background-color: #0a0a0a;">
+    <div class="container py-5">
+        <h2 class="section-title">¿Por qué CoopConnect?</h2>
+
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="bi bi-building"></i>
+                    </div>
+                    <h3>Gestión de Empresas</h3>
+                    <p class="text-muted">Administra tu PYME de forma simple. Crea perfiles, agrega miembros y organiza
+                        tu equipo.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="bi bi-diagram-3"></i>
+                    </div>
+                    <h3>Cooperativas por Sector</h3>
+                    <p class="text-muted">Únete a cooperativas de tu industria. Tecnología, agricultura, servicios y
+                        más.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="bi bi-chat-dots"></i>
+                    </div>
+                    <h3>Mensajería Integrada</h3>
+                    <p class="text-muted">Chats directos, grupales por empresa y cooperativa. Todo en un solo lugar.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="bi bi-shield-check"></i>
+                    </div>
+                    <h3>Seguro y Privado</h3>
+                    <p class="text-muted">Tus datos protegidos. Solo miembros autorizados acceden a información
+                        sensible.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="bi bi-speedometer2"></i>
+                    </div>
+                    <h3>Rápido y Simple</h3>
+                    <p class="text-muted">Interfaz intuitiva. No necesitas capacitación, comienza en minutos.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="bi bi-graph-up-arrow"></i>
+                    </div>
+                    <h3>Crece en Red</h3>
+                    <p class="text-muted">Colabora con otras PYMEs. Oportunidades de negocio y crecimiento conjunto.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section id="how-it-works" class="py-5"
+    style="min-height: 100vh; background: linear-gradient(180deg, #0a0a0a 0%, #000000 100%);">
+    <div class="container py-5">
+        <h2 class="section-title">Cómo Funciona</h2>
+
+        <div class="row g-5">
+            <div class="col-md-6 col-lg-3 text-center">
+                <div class="step-number mx-auto">1</div>
+                <h4 class="mb-3">Regístrate</h4>
+                <p class="text-muted">Crea tu cuenta en segundos. Solo necesitas un correo y contraseña.</p>
+            </div>
+
+            <div class="col-md-6 col-lg-3 text-center">
+                <div class="step-number mx-auto">2</div>
+                <h4 class="mb-3">Crea o Únete</h4>
+                <p class="text-muted">Registra tu PYME o únete a una existente. Define tu sector y comienza.</p>
+            </div>
+
+            <div class="col-md-6 col-lg-3 text-center">
+                <div class="step-number mx-auto">3</div>
+                <h4 class="mb-3">Coopera</h4>
+                <p class="text-muted">Únete a cooperativas de tu sector. Conecta con empresas afines.</p>
+            </div>
+
+            <div class="col-md-6 col-lg-3 text-center">
+                <div class="step-number mx-auto">4</div>
+                <h4 class="mb-3">Comunica</h4>
+                <p class="text-muted">Usa los chats para coordinar, colaborar y crecer en conjunto.</p>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="text-center mt-5 pt-5">
+            <h3 class="mb-4" style="font-size: 2.5rem;">¿Listo para Transformar tu PYME?</h3>
+            <p class="lead text-muted mb-4">Únete a cientos de empresas que ya están creciendo juntas.</p>
+            <a href="{% url 'accounts:register' %}" class="btn btn-primary-custom btn-lg">
+                <i class="bi bi-rocket-takeoff"></i> Comenzar Gratis Ahora
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block footer %}
+<!-- Footer Override -->
+<footer class="py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h5><i class="bi bi-diagram-3-fill text-primary"></i> CoopConnect</h5>
+                <p class="text-muted">Conectando PYMEs chilenas hacia el futuro.</p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <p class="text-muted mb-0">&copy; 2025 CoopConnect. Todos los derechos reservados.</p>
+                <small class="text-muted">Hecho con <i class="bi bi-heart-fill text-danger"></i> en Chile</small>
+            </div>
+        </div>
+    </div>
+</footer>
+{% endblock %}

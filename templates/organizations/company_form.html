@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}{{ action }} Empresa - CoopConnect{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card-custom p-5">
+                <h2 class="mb-4">{{ action }} Empresa</h2>
+                <form method="post">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label for="id_name" class="form-label">Nombre de la Empresa</label>
+                        {{ form.name }}
+                        {% if form.name.errors %}
+                        <div class="text-danger">{{ form.name.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="id_sector" class="form-label">Sector</label>
+                        {{ form.sector }}
+                        {% if form.sector.errors %}
+                        <div class="text-danger">{{ form.sector.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="id_description" class="form-label">Descripción</label>
+                        {{ form.description }}
+                        {% if form.description.errors %}
+                        <div class="text-danger">{{ form.description.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="id_access_code" class="form-label">Código de Acceso (para unirse)</label>
+                        {{ form.access_code }}
+                        {% if form.access_code.errors %}
+                        <div class="text-danger">{{ form.access_code.errors }}</div>
+                        {% endif %}
+                        <div class="form-text text-muted">Comparte este código con quienes quieran unirse a tu empresa.
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="bi bi-check-circle"></i> {{ action }}
+                        </button>
+                        <a href="{% url 'organizations:company_list' %}" class="btn btn-outline-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

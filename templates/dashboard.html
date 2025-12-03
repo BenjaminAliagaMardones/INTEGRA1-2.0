@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard - CoopConnect{% endblock %}
+
+{% block content %}
+<!-- Main Content -->
+<div class="container mt-4">
+    <!-- Welcome Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2>¡Bienvenido, {{ user.username }}! 👋</h2>
+            <p class="text-muted">Gestiona tu empresa y colabora con otras PYMEs</p>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-4">
+            <div class="card stat-card p-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h3 class="mb-0">{{ companies_count }}</h3>
+                        <p class="mb-0">Empresas</p>
+                    </div>
+                    <i class="bi bi-building" style="font-size: 3rem; opacity: 0.3;"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card stat-card p-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h3 class="mb-0">{{ cooperatives_count }}</h3>
+                        <p class="mb-0">Cooperativas</p>
+                    </div>
+                    <i class="bi bi-diagram-3" style="font-size: 3rem; opacity: 0.3;"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card stat-card p-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h3 class="mb-0">{{ user_chats_count }}</h3>
+                        <p class="mb-0">Mis Chats</p>
+                    </div>
+                    <i class="bi bi-chat-dots" style="font-size: 3rem; opacity: 0.3;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card-custom p-4 h-100">
+                <h5 class="mb-3">
+                    <i class="bi bi-building text-primary"></i> Mi Empresa
+                </h5>
+                {% if profile.company %}
+                <div class="mb-3">
+                    <h6>{{ profile.company.name }}</h6>
+                    <p class="text-muted mb-0">
+                        <span class="badge bg-primary">{{ profile.company.get_sector_display }}</span>
+                    </p>
+                </div>
+                <a href="{% url 'organizations:company_detail' profile.company.id %}"
+                    class="btn btn-outline-light btn-sm">Ver Detalles</a>
+                {% else %}
+                <p class="text-muted">No perteneces a ninguna empresa aún.</p>
+                <a href="{% url 'organizations:company_create' %}" class="btn btn-primary-custom">
+                    <i class="bi bi-plus-circle"></i> Crear Empresa
+                </a>
+                <a href="{% url 'organizations:company_list' %}" class="btn btn-outline-light">
+                    <i class="bi bi-search"></i> Buscar Empresa
+                </a>
+                {% endif %}
+
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card-custom p-4 h-100">
+                <h5 class="mb-3">
+                    <i class="bi bi-diagram-3 text-primary"></i> Cooperativas
+                </h5>
+                {% if profile.company and profile.company.cooperatives.exists %}
+                <div class="list-group list-group-flush mb-3">
+                    {% for coop in profile.company.cooperatives.all %}
+                    <a href="{% url 'organizations:cooperative_detail' coop.id %}"
+                        class="list-group-item list-group-item-action bg-transparent border-secondary text-white">
+                        <i class="bi bi-diagram-3"></i> {{ coop.name }}
+                    </a>
+                    {% endfor %}
+                </div>
+                <a href="{% url 'organizations:cooperative_list' %}" class="btn btn-outline-light btn-sm">
+                    <i class="bi bi-search"></i> Buscar Más
+                </a>
+                {% else %}
+                <p class="text-muted">
+                    Únete a cooperativas de tu sector para colaborar con otras empresas.
+                </p>
+                <a href="{% url 'organizations:cooperative_list' %}" class="btn btn-primary-custom">
+                    <i class="bi bi-search"></i> Explorar Cooperativas
+                </a>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="card-custom p-4">
+                <h5 class="mb-3">
+                    <i class="bi bi-chat-dots text-primary"></i> Mensajería
+                </h5>
+                {% if user_chats_count > 0 %}
+                <p class="text-muted">Tienes {{ user_chats_count }} chat{{ user_chats_count|pluralize }} activo{{
+                    user_chats_count|pluralize }}.</p>
+                <a href="{% url 'messaging:chat_list' %}" class="btn btn-primary-custom">
+                    <i class="bi bi-chat-dots"></i> Ver Chats
+                </a>
+                {% else %}
+                <p class="text-muted">No tienes chats aún. Únete a una empresa o cooperativa para comenzar a chatear.
+                </p>
+                <a href="{% url 'messaging:chat_list' %}" class="btn btn-outline-light">
+                    <i class="bi bi-chat-dots"></i> Mis Chats
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

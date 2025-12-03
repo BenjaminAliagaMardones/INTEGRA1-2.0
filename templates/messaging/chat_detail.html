@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block title %}{{ chat.name }} - CoopConnect{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Chat Header -->
+            <div class="card-custom p-3 mb-3">
+                <div class="d-flex align-items-center">
+                    <a href="{% url 'messaging:chat_list' %}" class="btn btn-sm btn-outline-secondary me-3">
+                        <i class="bi bi-arrow-left"></i>
+                    </a>
+                    <div class="flex-grow-1">
+                        <h4 class="mb-0">{{ chat }}</h4>
+                        <small class="text-muted">
+                            {% if chat.type == 'direct' %}
+                            <i class="bi bi-person-circle"></i> Chat Directo
+                            {% elif chat.type == 'company' %}
+                            <i class="bi bi-briefcase-fill"></i> Chat de Empresa
+                            {% else %}
+                            <i class="bi bi-people-fill"></i> Chat de Cooperativa
+                            {% endif %}
+                            • {{ chat.participants.count }} participantes
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Messages Area -->
+            <div class="card-custom p-4 mb-3" style="height: 500px; overflow-y: auto;" id="messagesArea"
+                hx-get="{% url 'messaging:chat_messages' chat.id %}" hx-trigger="every 3s" hx-swap="innerHTML">
+                {% include 'messaging/partials/message_list.html' %}
+            </div>
+
+            <!-- Message Input -->
+            <div class="card-custom p-3">
+                <form method="post" id="messageForm">
+                    {% csrf_token %}
+                    <div class="row g-2">
+                        <div class="col">
+                            {{ form.content }}
+                            {% if form.content.errors %}
+                            <div class="text-danger mt-1">{{ form.content.errors }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-primary" style="height: 100%;">
+                                <i class="bi bi-send-fill"></i> Enviar
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Scroll to bottom of messages
+    const messagesArea = document.getElementById('messagesArea');
+    if (messagesArea) {
+        messagesArea.scrollTop = messagesArea.scrollHeight;
+    }
+
+    // Focus on message input
+    document.addEventListener('DOMContentLoaded', function () {
+        const messageInput = document.querySelector('textarea[name="content"]');
+        if (messageInput) {
+            messageInput.focus();
+        }
+    });
+
+    // Auto-scroll when new messages arrive
+    const form = document.getElementById('messageForm');
+    if (form) {
+        form.addEventListener('submit', function () {
+            setTimeout(function () {
+                if (messagesArea) {
+                    messagesArea.scrollTop = messagesArea.scrollHeight;
+                }
+            }, 100);
+        });
+    }
+</script>
+{% endblock %}

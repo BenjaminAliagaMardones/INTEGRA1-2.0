@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% block title %}{{ company.name }} - CoopConnect{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <div class="card-custom p-5 mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2><i class="bi bi-building"></i> {{ company.name }}</h2>
+            {% if is_member %}
+            <span class="badge bg-success">Eres miembro</span>
+            {% endif %}
+        </div>
+
+        <p class="lead">{{ company.description }}</p>
+
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card bg-secondary p-3 text-center">
+                    <h3>{{ company.members_count }}</h3>
+                    <p class="mb-0">Miembros</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-secondary p-3 text-center">
+                    <h3>{{ cooperatives.count }}</h3>
+                    <p class="mb-0">Cooperativas</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-secondary p-3 text-center">
+                    <h5>{{ company.get_sector_display }}</h5>
+                    <p class="mb-0">Sector</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            {% if user == company.created_by %}
+            <div class="mb-3">
+                <a href="{% url 'organizations:company_edit' company.id %}" class="btn btn-warning me-2">
+                    <i class="bi bi-pencil"></i> Editar
+                </a>
+                <a href="{% url 'organizations:company_delete' company.id %}" class="btn btn-danger">
+                    <i class="bi bi-trash"></i> Eliminar
+                </a>
+            </div>
+            {% endif %}
+
+            {% if is_member %}
+            <a href="{% url 'messaging:create_company_chat' company.id %}" class="btn btn-success me-2">
+                <i class="bi bi-chat-dots"></i> Chat de Empresa
+            </a>
+            <a href="{% url 'organizations:company_leave' company.id %}" class="btn btn-outline-danger"
+                onclick="return confirm('¿Seguro que quieres salir de esta empresa?')">
+                <i class="bi bi-x-circle"></i> Salir de la Empresa
+            </a>
+            {% elif can_join %}
+            <a href="{% url 'organizations:company_join' company.id %}" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Unirme a esta Empresa
+            </a>
+            {% elif user.profile.company %}
+            <div class="alert alert-warning">
+                Ya perteneces a otra empresa.
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card-custom p-4">
+                <h5><i class="bi bi-people"></i> Miembros ({{ members.count }})</h5>
+                <hr>
+                {% if members %}
+                <div class="list-group list-group-flush">
+                    {% for member in members %}
+                    <div class="list-group-item bg-transparent border-secondary">
+                        <i class="bi bi-person-circle"></i> {{ member.user.username }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-muted">No hay miembros aún.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card-custom p-4">
+                <h5><i class="bi bi-diagram-3"></i> Cooperativas ({{ cooperatives.count }})</h5>
+                <hr>
+                {% if cooperatives %}
+                <div class="list-group list-group-flush">
+                    {% for coop in cooperatives %}
+                    <a href="{% url 'organizations:cooperative_detail' coop.id %}"
+                        class="list-group-item list-group-item-action bg-transparent border-secondary">
+                        {{ coop.name }}
+                    </a>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-muted">No pertenece a ninguna cooperativa.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

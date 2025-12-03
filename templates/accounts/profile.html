@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Mi Perfil - CoopConnect{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card-custom p-5">
+                <h2 class="mb-4">
+                    <i class="bi bi-person-circle text-primary"></i> Mi Perfil
+                </h2>
+
+                <!-- Información de Usuario -->
+                <div class="mb-4">
+                    <h5>Información de Cuenta</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Usuario:</strong> {{ user.username }}</p>
+                            <p><strong>Email:</strong> {{ user.email }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Fecha de Registro:</strong> {{ user.date_joined|date:"d/m/Y" }}</p>
+                            {% if user.profile.company %}
+                            <p><strong>Empresa:</strong> {{ user.profile.company.name }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="my-4">
+
+                <!-- Formulario de Perfil -->
+                <h5 class="mb-3">Actualizar Perfil</h5>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <!-- Vista previa del avatar -->
+                    <div class="text-center mb-4">
+                        {% if user.profile.avatar %}
+                        <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="avatar-preview"
+                            style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 3px solid #1d9bf0;">
+                        {% else %}
+                        <i class="bi bi-person-circle" style="font-size: 150px; color: #1d9bf0;"></i>
+                        {% endif %}
+                    </div>
+
+                    {{ form|crispy }}
+
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary-custom btn-lg">
+                            <i class="bi bi-check-circle"></i> Guardar Cambios
+                        </button>
+                        <a href="{% url 'dashboard' %}" class="btn btn-outline-light">
+                            Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
