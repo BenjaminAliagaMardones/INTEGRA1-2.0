@@ -1,20 +1,13 @@
 {
     "version": 2,
-    "builds": [
+    "rewrites": [
         {
-            "src": "coopconnect/wsgi.py",
-            "use": "@vercel/python",
-            "config": { "runtime": "python3.12" }
-        }
-    ],
-    "routes": [
-        {
-            "src": "/static/(.*)",
-            "dest": "/static/$1"
+            "source": "/static/(.*)",
+            "destination": "/static/$1"
         },
         {
-            "src": "/(.*)",
-            "dest": "coopconnect/wsgi.py"
+            "source": "/(.*)",
+            "destination": "/api/index.py"
         }
     ]
 }
