@@ -12,6 +12,22 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 import os
 import dj_database_url
+import sys
+
+# DEBUG LOGGING
+print("--- LOADING SETTINGS ---", file=sys.stderr)
+db_url = os.environ.get('DATABASE_URL')
+if db_url:
+    print(f"DEBUG: DATABASE_URL is set. Length: {len(db_url)}", file=sys.stderr)
+    print(f"DEBUG: DATABASE_URL starts with: '{db_url[:15]}...'", file=sys.stderr)
+    # Check for common issues
+    if db_url.startswith('https://'):
+        print("ERROR: DATABASE_URL starts with https://. It should start with postgres://", file=sys.stderr)
+    if db_url.startswith('"') or db_url.endswith('"'):
+        print("ERROR: DATABASE_URL seems to have quotes around it.", file=sys.stderr)
+else:
+    print("DEBUG: DATABASE_URL is NOT set.", file=sys.stderr)
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
