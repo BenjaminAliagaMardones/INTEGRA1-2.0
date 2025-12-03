@@ -102,12 +102,24 @@ WSGI_APPLICATION = 'coopconnect.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    'default': dj_database_url.config(
+try:
+    print("--- ATTEMPTING TO CONFIGURE DATABASE ---", file=sys.stderr)
+    db_config = dj_database_url.config(
         default='postgres://admin:admin@localhost:5432/cooperapyme_db',
         conn_max_age=600
     )
-}
+    DATABASES = {'default': db_config}
+    print("--- DATABASE CONFIGURED SUCCESSFULLY ---", file=sys.stderr)
+except Exception as e:
+    print(f"!!! CRITICAL ERROR CONFIGURING DATABASE: {e} !!!", file=sys.stderr)
+    print(f"!!! CHECK YOUR DATABASE_URL VARIABLE !!!", file=sys.stderr)
+    # Fallback to dummy sqlite to allow app to boot and show logs
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation
