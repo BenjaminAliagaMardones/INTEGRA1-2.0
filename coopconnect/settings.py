@@ -114,7 +114,7 @@ DATABASES = {
         default='postgres://admin:admin@localhost:5432/cooperapyme_db',
         conn_max_age=600,
         conn_health_checks=True,
-        ssl_require=True,
+        ssl_require=not DEBUG,
     )
 }
 
